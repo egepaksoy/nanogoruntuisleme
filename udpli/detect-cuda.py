@@ -7,9 +7,16 @@ import struct
 from ultralytics import YOLO
 import os
 import time
+import torch
+
+
+# GPU kontrolü
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+print(f"Using device: {device}")
 
 model_name = "kullanilcak.pt"
 model = YOLO("../models/" + model_name)
+model.to(device)
 
 if len(sys.argv) != 2:
     print("Kod kullanımı python detect.py <port numarası>")
@@ -119,3 +126,4 @@ finally:
     print("Program sonlandırıldı.")
     cv2.destroyAllWindows()  # Tüm OpenCV pencerelerini kapat
     sock.close()  # Soketi kapat
+
